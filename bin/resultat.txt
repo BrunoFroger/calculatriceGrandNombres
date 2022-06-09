@@ -1,0 +1,4 @@
+ERREUR : pas le bon nombre d'arguments (6) ! 
+bin/calculatriceGrandsNombres 1 + 2 + 3 
+Erreur de syntaxe : 
+calculatriceGrandsNombres [nombre entier] [+|-|x|:] [nombre]
