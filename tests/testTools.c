@@ -38,25 +38,6 @@ char *getResultat(char *resultat){
 			if (verbose) printf("	Lecture fichier resultat (%d) => ligne <%s> : ", cptLigne, ligne);
 			strcpy(resultat, ligne);
 		}
-		/*
-		// TODO ajouter test ERREUR sur premiere ligne afin de modfier valeur du case resultat 1 resultat normal, 3 si erreur
-		printf("	Lecture fichier resultat (%d) => ligne <%s> : ", cptLigne, ligne);
-		switch(cptLigne){
-			case 1 : // resultat
-				strcpy(resultat, ligne);
-				if (verbose) printf("resultat de l'operation : <%s>\n", resultat);
-				break;
-			case 2 : // taille plus grand nombre
-				if (atoi(ligne) != 0){
-					strcpy(tailleNombre, ligne);
-					if (verbose) printf("taille plus grand nombre : <%s>\n", tailleNombre);
-					break;
-				}
-			default : 
-				if (verbose) printf("ligne ignoree\n");
-				break;
-		}
-		*/
 		if (verbose) printf("\n");
 		cptLigne++;
 	}

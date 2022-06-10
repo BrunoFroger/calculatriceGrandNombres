@@ -71,6 +71,8 @@ int compare(char *str1, char *str2){
 
 
 int checkNumber(char *number){
+	if (strlen(number) == 0) return FALSE;
+	if (strlen(number) > MAX_SIZE) return FALSE;
 	for (int i = 0 ; i < strlen(number) ; i++){
 		if (number[i] < '0' || number[i] > '9'){
 			return FALSE;

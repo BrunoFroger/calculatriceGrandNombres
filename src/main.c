@@ -14,58 +14,12 @@
 #include "../inc/variables.h"
 #include "../inc/fonctions.h"
 #include "../inc/tools.h"
+#include "../inc/analyseParametres.h"
 
 int main(int argc, char **argv){
-	char nombre1[MAX_SIZE];
-	char nombre2[MAX_SIZE];
-	char resultat[MAX_SIZE];
-	char operation;
 	time_t timeDebut, timeFin;
 
-	if (argc != 4){
-		printf("ERREUR : pas le bon nombre d'arguments (%d) ! \n", argc);
-		for (int i = 0 ; i < argc ; i++){
-			printf("%s ",argv[i]);
-		}
-		printf("\n");
-		aide();
-		return -1;
-	}
-	int taille = strlen(argv[1]);
-	if (taille > plusGrandNombre) plusGrandNombre = taille;
-	if (taille > MAX_SIZE){
-		printf("ERREUR : le premier parametre est trop grand taille > à %d\n",MAX_SIZE);
-		aide();
-		return -1;
-	}
-	taille = strlen(argv[2]);
-	if (taille > plusGrandNombre) plusGrandNombre = taille;
-	if (taille > MAX_SIZE){
-		printf("ERREUR : le deuxieme parametre est trop grand taille > à %d\n",MAX_SIZE);
-		aide();
-		return -1;
-	}
-	strcpy(nombre1, argv[1]);
-	strcpy(nombre2, argv[2]);
-	operation=nombre2[0];
-	strcpy(nombre2, argv[3]);
-	strcpy(resultat,"");
-
-	if (checkNumber(nombre1) != TRUE){
-		printf("ERREUR : le premier parametre n'est pas un nombre (%s)\n",nombre1);
-		aide();
-		return -1;
-	}
-	if (checkNumber(nombre2) != TRUE){
-		printf("ERREUR : le troisieme parametre n'est pas un nombre (%s)\n",nombre2);
-		aide();
-		return -1;
-	}
-	if (operation != '+' && operation != '-' && operation != 'x' && operation != ':'){
-		printf("ERREUR : le deuxieme parametre n'est pas un symbole d'operation (%c)\n",operation);
-		aide();
-		return -1;
-	}
+	analyseParametres(argc, argv);
 
 	//printf("Main : Execution de l'operation %s %c %s \n", nombre1, operation, nombre2);
 	timeDebut = clock();
