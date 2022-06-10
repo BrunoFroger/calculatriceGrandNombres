@@ -4,3 +4,4 @@
 .cproject
 obj/*
 tests/*.o
+bin/*

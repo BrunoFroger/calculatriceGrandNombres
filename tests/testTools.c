@@ -28,13 +28,17 @@ char *getResultat(char *resultat){
 	FILE *fic;
 	char ligne[MAX_SIZE];
 	int cptLigne=0;
-	int verbose = TRUE;
+	int verbose = 0;
 
 	if (verbose) printf("Debut lecture du fichier resultat\n");	
 	fic = fopen("bin/resultat.txt", "r");
 	while (! feof(fic)){
-		fgets(ligne, MAX_SIZE, fic);
-		ligne[strlen(ligne)-1]='\0';
+		if (fgets(ligne, MAX_SIZE, fic) != NULL){
+			ligne[strlen(ligne)-1]='\0';
+			if (verbose) printf("	Lecture fichier resultat (%d) => ligne <%s> : ", cptLigne, ligne);
+			strcpy(resultat, ligne);
+		}
+		/*
 		// TODO ajouter test ERREUR sur premiere ligne afin de modfier valeur du case resultat 1 resultat normal, 3 si erreur
 		printf("	Lecture fichier resultat (%d) => ligne <%s> : ", cptLigne, ligne);
 		switch(cptLigne){
@@ -52,10 +56,13 @@ char *getResultat(char *resultat){
 				if (verbose) printf("ligne ignoree\n");
 				break;
 		}
+		*/
+		if (verbose) printf("\n");
 		cptLigne++;
 	}
 	if (atoi(tailleNombre) > plusGrandNombreTest) plusGrandNombreTest = atoi(tailleNombre);
-	if (verbose) printf("fin lecture du fichier resultat\n");
+	
+	if (verbose) printf("fin lecture du fichier resultat => %s\n", resultat);
 	return resultat;
 }
 

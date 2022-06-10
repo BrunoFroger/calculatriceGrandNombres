@@ -48,7 +48,7 @@ int main(int argc, char **argv){
 		printf("----------------\n");
 	}
 
-	if (0){
+	if (1){
 		initTests();
 		printf(" tests additions\n");
 		addTest((char*)"12 + 34", (char*)"46");
@@ -67,7 +67,7 @@ int main(int argc, char **argv){
 		printf("----------------\n");
 	}
 
-	if (0){
+	if (1){
 		initTests();
 		printf(" tests soustractions\n");
 		addTest((char*)"43 - 12",(char*) "31");
@@ -80,7 +80,7 @@ int main(int argc, char **argv){
 		printf("----------------\n");
 	}
 
-	if (0){
+	if (1){
 		initTests();
 		printf(" tests multiplications\n");
 		addTest((char*)"3 x 4", (char*)"12");
@@ -98,7 +98,7 @@ int main(int argc, char **argv){
 		printf("----------------\n");
 	}
 
-	if (0){
+	if (1){
 	printf(" tests divisions\n");
 		initTests();
 		addTest((char*)"8 : 40", (char*)"ERREUR : (compare)impossible de diviser 8 par 40 (pas de division reelle)");

@@ -98,7 +98,7 @@ int main(int argc, char **argv){
 	}
 	//printf("resultat = %s ; taille : %lu\n", resultat, strlen(resultat));
 	printf("%s\n", resultat);
-	printf("%d\n", plusGrandNombre);
+	//printf("%d\n", plusGrandNombre);
 	if (strlen(resultat) > plusGrandNombre) plusGrandNombre = strlen(resultat);
 	timeFin = clock();
 	//printf("duree du test : %f\n", (float)(timeFin - timeDebut) * 1000 /CLOCKS_PER_SEC);
