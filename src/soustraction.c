@@ -14,6 +14,11 @@
 #include "../inc/tools.h"
 
 
+//-----------------------------------------------------------
+//
+//			soustraction
+//
+//-----------------------------------------------------------
 char *soustraction(char *nombre1, char*nombre2, char *resultat){
 	int max_len;
 	char tmp1[MAX_SIZE];

@@ -13,6 +13,11 @@
 #include "../inc/variables.h"
 #include "../inc/tools.h"
 
+//-----------------------------------------------------------
+//
+//			analyseParametres
+//
+//-----------------------------------------------------------
 void analyseParametres(int argc, char **argv){
 
     char parametre[MAX_SIZE * 2];
@@ -31,9 +36,16 @@ void analyseParametres(int argc, char **argv){
 
     for (int i = 1 ; i < argc ; i++){
         strcpy(parametre, argv[i]);
-        printf("Analyse du parametre %s\n", parametre);
+        if (verbose) printf("Analyse du parametre %s\n", parametre);
         if (parametre[0] == '-' && parametre[1] == '-'){
             // c'est une option
+            char option = parametre[2];
+            switch(option){
+                case 'v' : // mode verbose
+                printf("activation du mode verbose \n");
+                    verbose = TRUE;
+                    break;
+            }
         } else {
             // c'est un des parametres de l'operation
             switch (idxOperation){

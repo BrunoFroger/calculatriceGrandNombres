@@ -6,7 +6,6 @@
  */
 
 #include <stdio.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -23,30 +22,40 @@ testCase testsCases[MAX_NB_TESTS];
 int indexTest,cptOK=0,cptKO=0,cptTests=0,testKO=-1;
 int plusGrandNombreTest;
 char tailleNombre[20];
+int numTestToExecute=-1;
 
+//-----------------------------------------------------------
+//
+//			getResultat
+//
+//-----------------------------------------------------------
 char *getResultat(char *resultat){
 	FILE *fic;
-	char ligne[MAX_SIZE];
+	char ligne[MAX_SIZE * 4];
 	int cptLigne=0;
-	int verbose = 0;
 
-	if (verbose) printf("Debut lecture du fichier resultat\n");	
+	//if (verbose) printf("Debut lecture du fichier resultat\n");	
 	fic = fopen("bin/resultat.txt", "r");
 	while (! feof(fic)){
-		if (fgets(ligne, MAX_SIZE, fic) != NULL){
+		if (fgets(ligne, MAX_SIZE * 4, fic) != NULL){
 			ligne[strlen(ligne)-1]='\0';
-			if (verbose) printf("	Lecture fichier resultat (%d) => ligne <%s> : ", cptLigne, ligne);
+			//if (verbose) printf("	Lecture fichier resultat (%d) => ligne <%s> : ", cptLigne, ligne);
 			strcpy(resultat, ligne);
 		}
-		if (verbose) printf("\n");
+		//if (verbose) printf("\n");
 		cptLigne++;
 	}
 	if (atoi(tailleNombre) > plusGrandNombreTest) plusGrandNombreTest = atoi(tailleNombre);
 	
-	if (verbose) printf("fin lecture du fichier resultat => %s\n", resultat);
+	//if (verbose) printf("fin lecture du fichier resultat => %s\n", resultat);
 	return resultat;
 }
 
+//-----------------------------------------------------------
+//
+//			testResultat
+//
+//-----------------------------------------------------------
 int testResultat(char *expected){
 	//FILE *fic;
 	char resultat[MAX_SIZE];
@@ -57,6 +66,11 @@ int testResultat(char *expected){
 	return TRUE;
 }
 
+//-----------------------------------------------------------
+//
+//			testEquals
+//
+//-----------------------------------------------------------
 int testEquals(char *nomProgramme, char *parametres, char *resultatAttendu){
 	char commande[MAX_SIZE];
 	char commandeSystem[MAX_SIZE];
@@ -64,9 +78,9 @@ int testEquals(char *nomProgramme, char *parametres, char *resultatAttendu){
 	int valRetour;
 	char message[MAX_SIZE * 3 + 100];
 
-	time_t timeDebut, timeFin;
+	struct timespec timeDebut, timeFin;
 	//time(&timeDebut);
-	timeDebut = clock();
+	clock_gettime(CLOCK_REALTIME, &timeDebut);
 	sprintf(commande, "%s %s",nomProgramme, parametres);
 	sprintf(message, "test %3d : <%s> ; resultat attendu = <%s> ",cptTests, parametres, resultatAttendu);
 	sprintf(commandeSystem, "%s > bin/resultat.txt",commande);
@@ -80,13 +94,21 @@ int testEquals(char *nomProgramme, char *parametres, char *resultatAttendu){
 		if (strlen(tmp)> plusGrandNombreTest) plusGrandNombreTest = strlen(tmp);
 	}
 	//time(&timeFin);
-	timeFin = clock();
+	clock_gettime(CLOCK_REALTIME, &timeFin);
 	//printf(" (duree du test : %5f ms)\n", (float)(timeFin - timeDebut) * 1000.0 / CLOCKS_PER_SEC);
-	sprintf(message, "%s (duree du test : %ld micro seconds)", message, (timeFin - timeDebut));
+	long dureeSeconde = (long) timeFin.tv_sec - (long) timeDebut.tv_sec;
+	long dureeNanoSeconde = timeFin.tv_nsec - timeDebut.tv_nsec;
+	sprintf(message, "%s (duree du test : %ld,%09ld seconds)", message, dureeSeconde, dureeNanoSeconde);
 	if ((valRetour == FALSE) || (verbose == 1)) printf("%s\n", message);
+	//printf("%s\n", message);
 	return valRetour;
 }
 
+//-----------------------------------------------------------
+//
+//			addTest
+//
+//-----------------------------------------------------------
 void addTest(char *commande, char *expectedResult){
 	testCase *tmp;
 	tmp = &testsCases[indexTest];
@@ -95,6 +117,11 @@ void addTest(char *commande, char *expectedResult){
 	indexTest++;
 }
 
+//-----------------------------------------------------------
+//
+//			initTests
+//
+//-----------------------------------------------------------
 void initTests(void){
 	testCase *tmp;
 	for (int i = 0 ; i < MAX_NB_TESTS ; i++){
@@ -105,17 +132,29 @@ void initTests(void){
 	indexTest=0;
 }
 
+//-----------------------------------------------------------
+//
+//			execTests
+//
+//-----------------------------------------------------------
 void execTests(char *programme){
 	testCase *tmp;
 	int i = 0;
 	int nbOK = 0;
 	int nbKO = 0;
+	int nbTestsExecuted = 0;
 	int result;
 	for (i = 0 ; i < MAX_NB_TESTS ; i++){
+		if (numTestToExecute != -1){
+			if (numTestToExecute != i){
+				continue;
+			}
+		}
 		tmp = &testsCases[i];
 		if (strcmp(tmp->commande,"") == 0){
 			break;
 		}
+		nbTestsExecuted++;
 		result = testEquals(programme, tmp->commande, tmp->expectedResult);
 		if (result == TRUE){
 			cptOK++;
@@ -127,16 +166,23 @@ void execTests(char *programme){
 		}
 		cptTests++;
 	}
-	printf(" %d tests executés : %d OK, %d KO\n", i, nbOK, nbKO);
+	printf(" %d tests executés : %d OK, %d KO\n", nbTestsExecuted, nbOK, nbKO);
 }
 
+//-----------------------------------------------------------
+//
+//			bilanTests
+//
+//-----------------------------------------------------------
 void bilanTests(void){
 	printf("Bilan des tests :\n");
 	printf("Nombre tests executés    : %3d\n",cptTests);
-	printf("       tests OK          : %3d (%d%%)\n",cptOK,cptOK*100/cptTests);
-	printf("       tests KO          : %3d (%d%%)\n",cptKO,cptKO*100/cptTests);
-	printf("Plus grand nombre        : %3d chiffres\n",plusGrandNombreTest);
-	if (testKO != -1){
-		printf("  id dernier test KO  : %3d \n",testKO);
+	if (cptTests != 0){
+		printf("       tests OK          : %3d (%d%%)\n",cptOK,cptOK*100/cptTests);
+		printf("       tests KO          : %3d (%d%%)\n",cptKO,cptKO*100/cptTests);
+		printf("Plus grand nombre        : %3d chiffres\n",plusGrandNombreTest);
+		if (testKO != -1){
+			printf("  id dernier test KO  : %3d \n",testKO);
+		}
 	}
 }

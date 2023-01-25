@@ -13,6 +13,11 @@
 #include "../inc/variables.h"
 
 
+//-----------------------------------------------------------
+//
+//			aide
+//
+//-----------------------------------------------------------
 void aide(void){
 	printf("Erreur de syntaxe : \n");
 	printf("calculatriceGrandsNombres [nombre entier] [+|-|x|:] [nombre]\n");

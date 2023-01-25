@@ -1,7 +1,7 @@
 
 
 CC = g++
-CFLAGS = -x c++ -o $@ -c -Wall -Werror
+CFLAGS = -x c++ -std=c++11 -o $@ -c -Wall -Werror
 
 OBJS = obj/main.o obj/addition.o obj/tools.o \
 	obj/soustraction.o obj/division.o \
@@ -12,10 +12,12 @@ OBJTST = tests/testMain.o tests/testTools.o obj/variables.o
 CALC = bin/calculatriceGrandsNombres
 TEST = bin/test
 
-calc : $(CALC)
-
 all: $(CALC) $(TEST)
 	bin/test
+
+calc : $(CALC)
+
+test : $(TEST)
 
 verbose: $(CALC) $(TEST)
 	bin/test -v

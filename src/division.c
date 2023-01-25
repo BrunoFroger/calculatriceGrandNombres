@@ -14,7 +14,11 @@
 #include "../inc/fonctions.h"
 #include "../inc/tools.h"
 
-
+//-----------------------------------------------------------
+//
+//			division
+//
+//-----------------------------------------------------------
 char *division(char *nombre1, char*nombre2, char *resultat){
 	char tmp1[MAX_SIZE];
 	char reste[MAX_SIZE];

@@ -16,34 +16,39 @@
 #include "../inc/tools.h"
 #include "../inc/analyseParametres.h"
 
+//-----------------------------------------------------------
+//
+//			main
+//
+//-----------------------------------------------------------
 int main(int argc, char **argv){
 	time_t timeDebut, timeFin;
-
+	printf("Debut du programme %s \n", argv[0]);
 	analyseParametres(argc, argv);
 
-	//printf("Main : Execution de l'operation %s %c %s \n", nombre1, operation, nombre2);
+	printf("Main : Execution de l'operation %s %c %s \n", nombre1, operation, nombre2);
 	timeDebut = clock();
 	switch (operation){
 		case '+':
-			printf("%s + %s = ", nombre1, nombre2);
+			if (verbose) printf("%s + %s = ", nombre1, nombre2);
 			addition(nombre1, nombre2, resultat);
-			printf("%s\n", resultat);
+			if (verbose) printf("%s\n", resultat);
 			break;
 		case '-':
-			printf("%s - %s = ", nombre1, nombre2);
+			if (verbose) printf("%s - %s = ", nombre1, nombre2);
 			soustraction(nombre1, nombre2, resultat);
-			printf("%s\n", resultat);
+			if (verbose) printf("%s\n", resultat);
 			break;
 		case 'x':
 		case 'X':
-			printf("%s x %s = ", nombre1, nombre2);
+			if (verbose) printf("%s x %s = ", nombre1, nombre2);
 			multiplication(nombre1, nombre2, resultat);
-			printf("%s\n", resultat);
+			if (verbose) printf("%s\n", resultat);
 			break;
 		case ':':
-			printf("%s : %s = ", nombre1, nombre2);
+			if (verbose) printf("%s : %s = ", nombre1, nombre2);
 			division(nombre1, nombre2, resultat);
-			printf("%s\n", resultat);
+			if (verbose) printf("%s\n", resultat);
 			break;
 		default :
 			printf("ERREUR : operateur inconnu %c\n", operation);

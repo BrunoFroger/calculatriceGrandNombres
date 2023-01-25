@@ -15,6 +15,11 @@
 #include "../inc/fonctions.h"
 
 
+//-----------------------------------------------------------
+//
+//			multiplication
+//
+//-----------------------------------------------------------
 char *multiplication(char *nombre1, char*nombre2, char *resultat){
 	//int max_len;
 	char tmp1[MAX_SIZE];
@@ -35,8 +40,8 @@ char *multiplication(char *nombre1, char*nombre2, char *resultat){
 		strcpy(tmp1,nombre2);
 		strcpy(tmp2,nombre1);
 	}
-	//printf("-----\n");
-	//printf("multiplication des nombres : %s x %s \n", tmp1, tmp2);
+	if (verbose) printf("-----\n");
+	if (verbose) printf("multiplication des nombres : %s x %s \n", tmp1, tmp2);
 
 	if (strlen(tmp2) != 1){
 		// on decale le nombre 2 a droite
@@ -87,7 +92,7 @@ char *multiplication(char *nombre1, char*nombre2, char *resultat){
 			strcat(tmp3,resultat);
 			strcpy(resultat, tmp3);
 		}
-		//printf("resultat de multiplication du nombres et digit %s x %s = %s\n", tmp1, tmp2, resultat);
+		if (verbose) printf("resultat de multiplication du nombres et digit %s x %s = %s\n", tmp1, tmp2, resultat);
 	}
 
 	//printf("multiplication sortie => %s x %s = <%s>\n", nombre1, nombre2, resultat);

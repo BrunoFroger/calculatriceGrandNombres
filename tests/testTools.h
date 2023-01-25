@@ -9,6 +9,7 @@
 #define TESTS_TOOLS_H_
 
 	extern int testResultat(char *expected);
+	extern int numTestToExecute;
 	extern char *getResultat(char *resultat);
 	extern int testEquals(char *nomProgramme, char *parametres, char *resultatAttendu);
 	extern void reverse(char *str);
